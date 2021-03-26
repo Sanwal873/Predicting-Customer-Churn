@@ -42,7 +42,7 @@ churn$Churn <- factor(churn$Churn)
 plot(churn$Churn, main = "Churn")
 
 # Let's also look at how our individual variables influence Churn
-# We'll use stacked bar plots for our categorical variables and box-plots for our 
+# I'll use stacked bar plots for our categorical variables and box-plots for our 
 # numeric variables
 # This code has been converted to comments to prevent clutter
 ###############################################################################
@@ -69,7 +69,7 @@ plot(churn$Churn, main = "Churn")
 #ggplot(data = churn, mapping = aes(x = Churn, y = MonthlyCharges)) + geom_boxplot()
 #ggplot(data = churn, mapping = aes(x = Churn, y = TotalCharges)) + geom_boxplot()
 
-# We will set up convenience vectors for our numeric and categorical variables]
+# I will set up convenience vectors for our numeric and categorical variables]
 
 cats <- c("gender", "SeniorCitizen", "Partner", "Dependents", "PhoneService", 
           "MultipleLines", "InternetService", "OnlineSecurity", "OnlineBackup",
@@ -80,15 +80,15 @@ churn[,cats] <- lapply(X = churn[,cats], FUN = factor)
 nums <- c("tenure", "MonthlyCharges", "TotalCharges")
 churn[,nums] <- lapply(X = churn[,nums], FUN = as.numeric)
 
-# We will combine cats and nums to create vars, which we will use to predict churn
+# I will combine cats and nums to create vars, which I will use to predict churn
 
 vars <- c(cats, nums)
 
-# We will now check to see if we have any missing values
+# I will now check to see if I have any missing values
 
 any(is.na(churn))
 
-# There are indeed missing values, so we must remove them
+# There are indeed missing values, so I must remove them
 
 churn <- na.omit(churn)
 
@@ -128,7 +128,7 @@ facs1<- c("customerID","gender", "SeniorCitizen","Partner","Dependents","PhoneSe
 
 nums1 <- names(cc)[!names(cc) %in% facs1]
 
-#or we can use the below code 
+#or I can use the below code 
 #nums1<-c("tenure","MonthlyCharges","TotalCharges")
 
 # viewing what is in nums and facs 
@@ -166,7 +166,7 @@ pca
 
 screeplot(pca, type = "lines")
 
-# We do not require any dimensionality reductions since we have only 3 numeric variables
+# I do not require any dimensionality reductions since I have only 3 numeric variables
 
 #Identifying outliers
 
@@ -177,16 +177,16 @@ cc_box$out # outlier values
 
 #There are no outliers in the data.
 
-#Finding the correlation between the numerical variables
+#Finding the correlation betIen the numerical variables
 
 cor(x=cc_nn[ , nums1])
 
-#strong correlation between MonthlyCharges and TotalCharges
+#strong correlation betIen MonthlyCharges and TotalCharges
 
 
 #Hierarchical Clustering--------------------------------------
 
-#we transform the data to normal distribution
+#I transform the data to normal distribution
 
 cen_yeojo <- preProcess(x= cc_nn, method ="YeoJohnson")
 cc_yeojo <- predict(object = cen_yeojo,
@@ -214,16 +214,16 @@ nums2<-c("tenure","MonthlyCharges")
 
 
 
-# Using gower distance method to calculate distances and similarity since there are 
+# Using goIr distance method to calculate distances and similarity since there are 
 #mixed variables
 
-hdist2 <- daisy(x = mydata2, metric= "gower")
+hdist2 <- daisy(x = mydata2, metric= "goIr")
 
 summary(hdist2)
 
 #Agglomerative clustering
 
-#Measuring dissimilarity between clusters using single, complete, 
+#Measuring dissimilarity betIen clusters using single, complete, 
 # average, centroid and wards linkage methods
 
 #Single Linkage
@@ -396,7 +396,7 @@ aggregate(x = mydata2[ ,facs2],
 
 ##Cluster validation
 
-#We are comparing the distribution of clusters with respect to churn 
+#I are comparing the distribution of clusters with respect to churn 
 #in complete, wards and average clustering methods.
 
 #k= 5
@@ -434,7 +434,7 @@ cluster.stats(d = hdist2, # distance matrix
               alt.clustering = as.numeric(cc_nn$Churn))$corrected.rand #known groupings
 
 # Though the Rand index value is high for wards linkage method,
-#we are not using Rand Index measure to validate the clusters as it 
+#I are not using Rand Index measure to validate the clusters as it 
 #is not close to 1 or -1.
 
 #Internal Validation
@@ -479,7 +479,7 @@ wss_plot(dist_mat = hdist2, # distance matrix
 
 # There is no strict elbow point for wards linkage in order to
 #determine the number of Clusters
-# so, we would like to take the average linkage method.
+# so, I would like to take the average linkage method.
 
 #wss_plot(dist_mat = hdist2, # distance matrix
 #         method = "hc", # HCA
@@ -607,7 +607,7 @@ sil_plot(scaled_data = cc_yjcc[ ,nums2], # scaled data
 #other validation techniques
 
 c_stats1<- c("max.diameter", "min.separation", 
-             "average.between", "average.within",
+             "average.betIen", "average.within",
              "dunn")
 
 # Hierarchical Clustering
@@ -647,12 +647,12 @@ cbind(HCA = stats_HCA1,
 cbind(HCA = stats_HCA1, 
       kMC = stats_kMC1)["min.separation",]
 
-#Large separation between the clusters of HCA. In this context HCA is better.
+#Large separation betIen the clusters of HCA. In this context HCA is better.
 
 cbind(HCA = stats_HCA1, 
-      kMC = stats_kMC1)["average.between",]
+      kMC = stats_kMC1)["average.betIen",]
 
-#Large average distance between clusters is for KMeans. In this context KMeans is better.
+#Large average distance betIen clusters is for KMeans. In this context KMeans is better.
 
 cbind(HCA = stats_HCA1, 
       kMC = stats_kMC1)["average.within",]
@@ -668,12 +668,12 @@ cbind(HCA = stats_HCA1,
 
 set.seed(29619122)
 
-# With the seed initialized, we can now create our training indices
-# We will use a p of 0.85 to get a high amount of training data for our model
+# With the seed initialized, I can now create our training indices
+# I will use a p of 0.85 to get a high amount of training data for our model
 
 sub <- createDataPartition(y = churn$Churn, p = 0.85, list = FALSE)
 
-# We will create 2 dataframes - one training and one testing
+# I will create 2 dataframes - one training and one testing
 
 train <- churn[sub, ]
 test <- churn[-sub, ]
@@ -686,58 +686,58 @@ churn[,cats] <- lapply(X = churn[,cats], FUN = factor)
 
 nums <- c("tenure", "MonthlyCharges", "TotalCharges")
 churn[,nums] <- lapply(X = churn[,nums], FUN = as.numeric)
-# With the initial setup complete, we can now move into Naive Bayes Classification
+# With the initial setup complete, I can now move into Naive Bayes Classification
 
-# To begin this process, we must first check correlation
+# To begin this process, I must first check correlation
 
 cor(x = churn[ ,nums])
 
-# Total charges correlates strongly with both tenure and monthly charges, so we'll
+# Total charges correlates strongly with both tenure and monthly charges, so I'll
 # want to remove it.
 
 vars <- vars[!vars %in% "TotalCharges"]
 vars
 
-# We will now want to check our numeric variables to see if they are normally distributed
+# I will now want to check our numeric variables to see if they are normally distributed
 
 hist(x = churn$MonthlyCharges)
 hist(x = churn$tenure)
 
-# Neither is normally distributed, so we'll need to transform them
-# Tenure has 0-values, so we'll want to use a Yeo-Johnson transformation.
+# Neither is normally distributed, so I'll need to transform them
+# Tenure has 0-values, so I'll want to use a Yeo-Johnson transformation.
 
 Norm <- preProcess(x = churn[ ,vars], method = c("YeoJohnson", "center", "scale"))
 
-# Training and Testing datasets have already been made, so we'll apply 
+# Training and Testing datasets have already been made, so I'll apply 
 # transformations directly to them
 
 train_NB <- predict(object = Norm, newdata = train)
 
 test_NB <- predict(object = Norm, newdata = test)
 
-# We must now determine if Laplace smoothing needs to be applied
+# I must now determine if Laplace smoothing needs to be applied
 
 aggregate(train_NB[ ,cats], by = list(train_NB$Churn), FUN = table)
 
 # There are no 0-categories, so Laplace smoothing does not need to be applied!
 
-# Next, we will ceate our Naive Bayes model
+# Next, I will ceate our Naive Bayes model
 
 NB_model <- naiveBayes(x = train_NB[ ,vars], y = train_NB$Churn, laplace = 0)
 NB_model
 
-# Using our model, we will now generate class predictions
+# Using our model, I will now generate class predictions
 
 NB.train <- predict(object = NB_model, newdata = train_NB[ ,vars], type = "class")
 head(NB.train)
 
-# We will now use a confusion matrix to generate performance measures
+# I will now use a confusion matrix to generate performance measures
 
 NB_train_conf <- confusionMatrix(data = NB.train, reference = train_NB$Churn, 
                                  positive = "Yes", mode = "everything")
 NB_train_conf
 NB_train_conf$byoverall
-# We will now go through the same process for our testing model
+# I will now go through the same process for our testing model
 
 NB.test <- predict(object = NB_model, newdata = test_NB[ ,vars], type = "class")
 
@@ -746,13 +746,13 @@ NB_test_conf <- confusionMatrix(data = NB.test, reference = test_NB$Churn,
 
 NB_test_conf
 
-# We'll now test our overall performance based on accuracy and kappa values
+# I'll now test our overall performance based on accuracy and kappa values
 # This will show the general accuracy of our model and our model's accuracy 
 # accounting for chance
 
 NB_test_conf$overall[c("Accuracy", "Kappa")]
 
-# We'll also observe performance by class
+# I'll also observe performance by class
 
 NB_test_conf$byClass
 
@@ -766,25 +766,25 @@ cbind(Training = NB_train_conf$byClass, Testing = NB_test_conf$byClass)
 
 # Our results show that the model is balanced
 
-# Next, we'll look at variable importance
+# Next, I'll look at variable importance
 
-# First, we'll set up the grid to meet Naive Bayes' needs
+# First, I'll set up the grid to meet Naive Bayes' needs
 # NOTE: Some code for the variable importance was obtained from the StackOverlow
 # page: "Determine Variables of Importance in Naive Bayes Model".
-# Code from this website will be preceded with a comment 'SOF'
+# Code from this Ibsite will be preceded with a comment 'SOF'
 
 # SOF
 grids <- data.frame(usekernel=TRUE,laplace = 0,adjust=1)
 
 grids
 
-# Next, we'll set up our ctrl object
+# Next, I'll set up our ctrl object
 
 ctrl <- trainControl(method = "repeatedcv", number = 10, repeats = 3, search = "grid")
 
 set.seed(29619122)
 
-# With this set up, we can make our NB_Fit object using the grids and ctrl objects
+# With this set up, I can make our NB_Fit object using the grids and ctrl objects
 # Our method will be naive_bayes
 # SOF
 
@@ -794,7 +794,7 @@ NB_Fit <- train(form = Churn ~ .,
                 trControl = ctrl,
                 tuneGrid = grids)
 
-# We can now check and plot our variable importance
+# I can now check and plot our variable importance
 
 NB_Imp <- varImp(NB_Fit)
 plot(NB_Imp)
@@ -870,7 +870,7 @@ cc3 <- cc2[,-1]
 str(cc3)
 
 ## Prepare Target (Y) Variable
-# We can convert our class variable,
+# I can convert our class variable,
 # Churn to a nominal factor variable
 # Note: No = 1, Yes = 2
 cc3$Churn <- factor(x = cc3$Churn,
@@ -887,9 +887,9 @@ lapply(X = cc3[,names(cc3)[sapply(X = cc3,
                                   FUN = is.integer)]],
        FUN = table)
 
-# We have two categorical variables, SeniorCitizen and
-# tenure. We can keep SeniorCitizen as-is, since it is already binary. 
-#Also we will keep tenure as-is, since it is an integer but it clearly takes
+# I have two categorical variables, SeniorCitizen and
+# tenure. I can keep SeniorCitizen as-is, since it is already binary. 
+#Also I will keep tenure as-is, since it is an integer but it clearly takes
 # so many values and will not be considered as factor variables
 
 # cc3$tenure <- factor(x = cc3$tenure)
@@ -931,8 +931,8 @@ high_corrs
 #Since there are no redundant variables, nums vector will remain as is
 
 ## 3. Rescale Numeric Variables
-# kNN has been shown to perform well with min-max (range) normalization, converting
-# the numeric variables to range between 0 and 1. We can use the preProcess()
+# kNN has been shown to perform Ill with min-max (range) normalization, converting
+# the numeric variables to range betIen 0 and 1. I can use the preProcess()
 # and predict() functions and save the rescaled data as a new dataframe, 
 # cc4_mm.
 
@@ -946,7 +946,7 @@ cc4_mm <- predict(object = cen4_mm,
 
 ## 4. Binarization
 
-# We will binarize the factor variable:
+# I will binarize the factor variable:
 #Below: Check the levels for individual class variables
 #nlevels(cc4$gender) # class levels
 #nlevels(cc4$Partner)
@@ -1028,7 +1028,7 @@ test102
 ## 6. Analysis
 
 
-## First, we can try using a 'best guess' value of k (square root of the number 
+## First, I can try using a 'best guess' value of k (square root of the number 
 # of training observations)
 ceiling(sqrt(nrow(train101)))
 # 78
@@ -1057,19 +1057,19 @@ accuracy <- mean(observed.classes == predicted.clases)
 # are automatically computed and provided. 
 
 # Set up a trainControl object (named ctrl) using the trainControl() 
-# function in the caret package. We specify that we want to perform 10-fold cross 
-# validation, repeated 3 times. We use this object as input to the trControl argument
+# function in the caret package. I specify that I want to perform 10-fold cross 
+# validation, repeated 3 times. I use this object as input to the trControl argument
 # in the train() function below.
 ctrl <- trainControl(method = "repeatedcv",
                      number = 10,
                      repeats = 3)
 
-# Next, we initialize a random seed for 
+# Next, I initialize a random seed for 
 # our cross validation
 set.seed(29619122)
 
-# Then, we use the train() function to train the kNN model using 10-Fold Cross 
-# Validation (repeated 3 times). We set tuneLength = 15 to try the first 15
+# Then, I use the train() function to train the kNN model using 10-Fold Cross 
+# Validation (repeated 3 times). I set tuneLength = 15 to try the first 15
 # default values of k (odd values from k = 5:33)
 knnFit101 <- train(x = train102,
                    y = train101$Churn, 
@@ -1084,15 +1084,15 @@ knnFit101
 # on the y-axis.
 plot(knnFit101)
 
-# We can view the confusion matrix showing the average performance of the model
+# I can view the confusion matrix showing the average performance of the model
 # across resamples
 confusionMatrix(knnFit101)
 
 ### Model Performance
 
-# Finally,use our best tuned model to predict the testing data.First, we use the predict() function to 
+# Finally,use our best tuned model to predict the testing data.First, I use the predict() function to 
 # predict the value of the median_val variable 
-# using the model we created using the train()function, knnFit1 model and the true 
+# using the model I created using the train()function, knnFit1 model and the true 
 # classes of the median_val in the test dataframe.
 outpreds <- predict(object = knnFit101, 
                     newdata = test102)
@@ -1105,13 +1105,13 @@ conf_tuned <- confusionMatrix(data = outpreds,
 conf_tuned
 
 
-# We can describe the overall performance 
+# I can describe the overall performance 
 # based on our accuracy and kappa values.
 
 conf_tuned$overall[c("Accuracy", "Kappa")]
 
-# We can describe class-level performance for the different class levels. Note,
-# above, we set positive = "Yes", since we are more interested in predicting above median
+# I can describe class-level performance for the different class levels. Note,
+# above, I set positive = "Yes", since I are more interested in predicting above median
 # properties than below median
 conf_tuned$byClass
 
